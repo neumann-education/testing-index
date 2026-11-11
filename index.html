@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenidos a Neumann | Empezamos en Enero</title>
+
+    <!-- Favicon institucional -->
+    <link rel="icon" type="image/jpeg" href="img/logo_jvn.jpg" />
+
+    <!-- Preload de las 5 fotos para animación fluida instantánea -->
+    <link rel="preload" as="image" href="img/car_1.png" />
+    <link rel="preload" as="image" href="img/car_2.png" />
+    <link rel="preload" as="image" href="img/car_3.png" />
+    <link rel="preload" as="image" href="img/car_4.png" />
+    <link rel="preload" as="image" href="img/car_5.png" />
+
+    <!-- Tipografía moderna Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ==========================================================
+       VARIABLES Y PALETA OFICIAL INSTITUCIONAL JVN
+       ========================================================== */
+      :root {
+        /* Colores Principales (Marca) */
+        --morado-jvn: #4b0082; /* Cabeceras, CTA y elementos clave */
+        --purpura-medianoche: #2e004f; /* Énfasis, hover states y sombras */
+        --violeta-real: #6a0dad; /* Íconos, acentos y gradientes */
+
+        /* Colores de Apoyo y Contraste */
+        --blanco-puro: #ffffff; /* Fondos y lectura limpia */
+        --gris-nube: #f8f9fa; /* Fondos secundarios y divisores */
+        --lavanda-intenso: #9d50bb; /* Badges y llamadas de atención */
+
+        /* Acento comercial WhatsApp */
+        --whatsapp-green: #25d366;
+        --whatsapp-hover: #1ea850;
+
+        --radius-card: 12px;
+        --radius-sm: 8px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Fondo limpio que llena el marco del Iframe sin dobles fondos */
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: var(--blanco-puro);
+        font-family:
+          'Plus Jakarta Sans',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: #2b2b2b;
+        line-height: 1.4;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(75, 0, 130, 0.25) transparent;
+      }
+
+      body::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      body::-webkit-scrollbar-thumb {
+        background: rgba(75, 0, 130, 0.2);
+        border-radius: 4px;
+      }
+
+      /* Contenedor principal que se adapta al Iframe de 550px x 700px */
+      .popup-container {
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        background: var(--blanco-puro);
+        animation: fadeIn 0.35s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ==========================================================
+       HERO SUPERIOR: LOGO + CARRUSEL + SELLOS (BLOQUE MORADO)
+       ========================================================== */
+      .top-hero {
+        background: linear-gradient(
+          155deg,
+          var(--purpura-medianoche) 0%,
+          var(--morado-jvn) 55%,
+          var(--violeta-real) 100%
+        );
+        color: var(--blanco-puro);
+        padding: 12px 18px 10px 18px;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      /* Luces ambientales decorativas sutiles */
+      .top-hero::before {
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(157, 80, 187, 0.3) 0%,
+          transparent 70%
+        );
+        top: -60px;
+        left: -60px;
+        pointer-events: none;
+      }
+
+      /* Cabecera Logo */
+      .brand-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .brand-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        object-fit: cover;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        flex-shrink: 0;
+      }
+
+      .brand-title {
+        font-size: 1.05rem;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        line-height: 1;
+      }
+
+      .brand-subtitle {
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        opacity: 0.85;
+        font-weight: 600;
+        margin-top: 2px;
+      }
+
+      /* Carrusel Compacto (140px de altura para no ahogar la pantalla) */
+      .carousel-wrapper {
+        position: relative;
+        width: 100%;
+        height: 140px;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        z-index: 2;
+        opacity: 0;
+        transform: scale(0.98);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .carousel-wrapper.is-ready {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .carousel-track {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .carousel-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        pointer-events: none;
+      }
+
+      .carousel-slide.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Durante el arranque turbo */
+      .carousel-wrapper.is-spinning .carousel-slide {
+        transition: opacity 0.08s ease-out;
+      }
+
+      .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Prioriza el tercio superior para que rostros y cabezas nunca se recorten */
+        object-position: center 15%;
+        display: block;
+      }
+
+      /* Flechas compactas */
+      .nav-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(46, 0, 79, 0.7);
+        backdrop-filter: blur(3px);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 5;
+        font-size: 11px;
+        transition: all 0.2s ease;
+        opacity: 0.8;
+      }
+
+      .nav-arrow:hover {
+        background: var(--violeta-real);
+        opacity: 1;
+      }
+
+      .nav-arrow.prev {
+        left: 6px;
+      }
+      .nav-arrow.next {
+        right: 6px;
+      }
+
+      /* Indicadores de puntos */
+      .carousel-dots {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        z-index: 5;
+        background: rgba(46, 0, 79, 0.55);
+        backdrop-filter: blur(3px);
+        padding: 3px 8px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45);
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .dot.active {
+        background: #ffffff;
+        width: 14px;
+        border-radius: 8px;
+      }
+
+      /* Fila única de sellos institucionales */
+      .trust-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 8px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        opacity: 0.95;
+        position: relative;
+        z-index: 2;
+        flex-wrap: wrap;
+      }
+
+      .trust-badge-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .trust-badge-item svg {
+        width: 13px;
+        height: 13px;
+        fill: #ffd54f;
+        flex-shrink: 0;
+      }
+
+      /* ==========================================================
+       CONTENIDO COMERCIAL: TEXTOS, CONTADOR Y BOTÓN WHATSAPP
+       ========================================================== */
+      .body-content {
+        padding: 16px 20px 14px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+      }
+
+      /* Títulos */
+      .headline {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--purpura-medianoche);
+        line-height: 1.2;
+        margin-bottom: 4px;
+        letter-spacing: -0.3px;
+        text-align: center;
+      }
+
+      .headline span {
+        background: linear-gradient(
+          135deg,
+          var(--morado-jvn),
+          var(--violeta-real)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .subheadline {
+        font-size: 0.8rem;
+        color: #555555;
+        font-weight: 500;
+        margin-bottom: 12px;
+        text-align: center;
+        line-height: 1.35;
+      }
+
+      .subheadline strong {
+        color: var(--purpura-medianoche);
+        font-weight: 700;
+      }
+
+      /* Contador Regresivo Compacto */
+      .countdown-box {
+        background: var(--gris-nube);
+        border: 1px solid #ebebf0;
+        border-radius: var(--radius-sm);
+        padding: 8px 10px;
+        margin-bottom: 12px;
+      }
+
+      .countdown-label {
+        font-size: 0.67rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        font-weight: 700;
+        color: var(--purpura-medianoche);
+        margin-bottom: 6px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+
+      .countdown-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+
+      .time-slot {
+        background: var(--blanco-puro);
+        border-radius: 6px;
+        padding: 6px 2px;
+        text-align: center;
+        border: 1px solid #e3e3ea;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      }
+
+      .time-digits {
+        font-size: 1.18rem;
+        font-weight: 800;
+        color: var(--morado-jvn);
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .time-legend {
+        font-size: 0.58rem;
+        color: #727272;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-top: 3px;
+      }
+
+      /* Casillas resaltadas con fondo morado institucional y texto blanco */
+      .time-slot.highlight {
+        background: linear-gradient(
+          145deg,
+          var(--morado-jvn) 0%,
+          var(--purpura-medianoche) 100%
+        );
+        border: 1px solid rgba(46, 0, 79, 0.25);
+        box-shadow: 0 3px 10px rgba(46, 0, 79, 0.22);
+      }
+
+      .time-slot.highlight .time-digits {
+        color: #ffffff;
+        font-size: 1.25rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      }
+
+      .time-slot.highlight .time-legend {
+        color: #e5d0ff;
+        font-weight: 700;
+      }
+
+      /* Beneficios Clave (2 viñetas esenciales) */
+      .benefits-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+
+      .benefit-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.78rem;
+        color: #383838;
+        font-weight: 500;
+      }
+
+      .check-icon {
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        background: rgba(106, 13, 173, 0.1);
+        color: var(--violeta-real);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .check-icon svg {
+        width: 10px;
+        height: 10px;
+        stroke: var(--violeta-real);
+        stroke-width: 3;
+        fill: none;
+      }
+
+      /* Acciones: Botón de WhatsApp */
+      .cta-area {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .whatsapp-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(
+          135deg,
+          var(--whatsapp-green) 0%,
+          #1ea850 100%
+        );
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.94rem;
+        font-weight: 700;
+        padding: 12px 18px;
+        border-radius: var(--radius-sm);
+        box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+        transition: all 0.25s ease;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .whatsapp-btn:hover {
+        background: linear-gradient(
+          135deg,
+          var(--whatsapp-hover) 0%,
+          #178d42 100%
+        );
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(37, 211, 102, 0.45);
+      }
+
+      .whatsapp-btn svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+        flex-shrink: 0;
+      }
+
+      .site-link {
+        text-align: center;
+        font-size: 0.72rem;
+        color: #727272;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .site-link span {
+        color: var(--violeta-real);
+        font-weight: 700;
+      }
+
+      .site-link:hover {
+        color: var(--morado-jvn);
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="popup-container">
+      <!-- ======================================================
+         BLOQUE SUPERIOR MORADO: LOGO + CARRUSEL + SELLOS
+         ====================================================== -->
+      <header class="top-hero">
+        <!-- Barra de Marca -->
+        <div class="brand-bar">
+          <img src="img/jvn_logo.jpg" alt="Logo Neumann" class="brand-logo" />
+          <div>
+            <h2 class="brand-title">NEUMANN</h2>
+            <p class="brand-subtitle">Instituto Superior</p>
+          </div>
+        </div>
+
+        <!-- Carrusel de fotos optimizado (140px) -->
+        <div class="carousel-wrapper" id="carouselWrapper">
+          <div class="carousel-track">
+            <div class="carousel-slide active">
+              <img src="img/car_1.png" alt="Estudiantes Neumann" />
+            </div>
+            <div class="carousel-slide">
+              <img src="img/car_2.png" alt="Asesoría y Docentes" />
+            </div>
+            <div class="carousel-slide">
+              <img src="img/car_3.png" alt="Laboratorios de Cómputo" />
+            </div>
+            <div class="carousel-slide">
+              <img src="img/car_4.png" alt="Graduación y Titulación" />
+            </div>
+            <div class="carousel-slide">
+              <img src="img/car_5.png" alt="Comunidad Estudiantil" />
+            </div>
+          </div>
+
+          <!-- Flechas de navegación -->
+          <button class="nav-arrow prev" id="prevSlide" aria-label="Anterior">
+            ❮
+          </button>
+          <button class="nav-arrow next" id="nextSlide" aria-label="Siguiente">
+            ❯
+          </button>
+
+          <!-- Indicadores de puntos -->
+          <div class="carousel-dots" id="carouselDots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+            <span class="dot" data-index="4"></span>
+          </div>
+        </div>
+
+        <!-- Sellos en una sola línea -->
+        <div class="trust-bar">
+          <span class="trust-badge-item">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+              />
+            </svg>
+            Licenciados por MINEDU
+          </span>
+          <span>•</span>
+          <span class="trust-badge-item">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+              />
+            </svg>
+            Alianza Blackwell University
+          </span>
+        </div>
+      </header>
+
+      <!-- ======================================================
+         BLOQUE INFERIOR BLANCO: TEXTOS, CONTADOR Y WHATSAPP
+         ====================================================== -->
+      <section class="body-content">
+        <div>
+          <h1 class="headline">
+            BIENVENIDOS A <span>NEUMANN</span>.<br />EMPEZAMOS EN ENERO.
+          </h1>
+          <p class="subheadline">
+            Iniciamos clases este <strong>11 de Enero</strong>. Asegura tu
+            vacante y empieza tu carrera profesional con respaldo internacional.
+          </p>
+
+          <!-- Contador Regresivo -->
+          <div class="countdown-box">
+            <div class="countdown-label">
+              ⏳ Tiempo restante para el inicio de clases:
+            </div>
+            <div class="countdown-grid">
+              <div class="time-slot highlight">
+                <div class="time-digits" id="timerDays">00</div>
+                <div class="time-legend">Días</div>
+              </div>
+              <div class="time-slot highlight">
+                <div class="time-digits" id="timerHours">00</div>
+                <div class="time-legend">Horas</div>
+              </div>
+              <div class="time-slot">
+                <div class="time-digits" id="timerMins">00</div>
+                <div class="time-legend">Min</div>
+              </div>
+              <div class="time-slot">
+                <div class="time-digits" id="timerSecs">00</div>
+                <div class="time-legend">Seg</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 Beneficios Esenciales -->
+          <ul class="benefits-list">
+            <li class="benefit-item">
+              <span class="check-icon">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              Título a Nombre de la Nación con Certificación Modular
+            </li>
+            <li class="benefit-item">
+              <span class="check-icon">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              Opción a Doble Grado Universitario Internacional
+            </li>
+          </ul>
+        </div>
+
+        <!-- Botón de WhatsApp -->
+        <div class="cta-area">
+          <a
+            href="#"
+            id="whatsappCta"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="whatsapp-btn"
+            aria-label="Contactar por WhatsApp para el inicio de clases"
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41a8.18 8.18 0 0 1 2.4 5.83c0 4.54-3.7 8.24-8.24 8.24-1.42 0-2.82-.37-4.06-1.08l-.29-.17-3.02.79.81-2.94-.19-.3a8.18 8.18 0 0 1-1.25-4.33c0-4.54 3.7-8.24 8.24-8.24v-.21zm4.52 11.66c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.84-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.66.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"
+              />
+            </svg>
+            👉 ¡Quiero mi Vacante por WhatsApp!
+          </a>
+
+          <a
+            href="https://www.neumann.edu.pe/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="site-link"
+          >
+            Conoce más en la web oficial: <span>neumann.edu.pe</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================
+       CONFIGURACIÓN Y SCRIPTS
+       ========================================================== -->
+    <script>
+      /* --------------------------------------------------------
+       1. CONFIGURACIÓN PERSONALIZABLE
+       -------------------------------------------------------- */
+      const NEUMANN_CONFIG = {
+        whatsappPhone: '12513090476',
+        whatsappText:
+          '¡Hola Neumann! Vengo del anuncio web. Quiero información para asegurar mi vacante para el inicio de clases en Enero.',
+        targetDay: 11,
+        targetMonth: 0, // 0 = Enero
+      }
+
+      const whatsappLink = `https://wa.me/${NEUMANN_CONFIG.whatsappPhone}?text=${encodeURIComponent(NEUMANN_CONFIG.whatsappText)}`
+      const ctaButton = document.getElementById('whatsappCta')
+      if (ctaButton) {
+        ctaButton.href = whatsappLink
+      }
+
+      /* --------------------------------------------------------
+       2. CONTADOR REGRESIVO DINÁMICO
+       -------------------------------------------------------- */
+      function getNextTargetDate() {
+        const now = new Date()
+        let targetYear = now.getFullYear()
+
+        if (
+          now.getMonth() > NEUMANN_CONFIG.targetMonth ||
+          (now.getMonth() === NEUMANN_CONFIG.targetMonth &&
+            now.getDate() >= NEUMANN_CONFIG.targetDay)
+        ) {
+          targetYear += 1
+        }
+
+        return new Date(
+          targetYear,
+          NEUMANN_CONFIG.targetMonth,
+          NEUMANN_CONFIG.targetDay,
+          8,
+          0,
+          0,
+        ).getTime()
+      }
+
+      const targetTimestamp = getNextTargetDate()
+
+      function renderCountdown() {
+        const now = new Date().getTime()
+        const distance = targetTimestamp - now
+
+        if (distance <= 0) {
+          document.getElementById('timerDays').textContent = '00'
+          document.getElementById('timerHours').textContent = '00'
+          document.getElementById('timerMins').textContent = '00'
+          document.getElementById('timerSecs').textContent = '00'
+          return
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        )
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
+        document.getElementById('timerDays').textContent = String(
+          days,
+        ).padStart(2, '0')
+        document.getElementById('timerHours').textContent = String(
+          hours,
+        ).padStart(2, '0')
+        document.getElementById('timerMins').textContent = String(
+          minutes,
+        ).padStart(2, '0')
+        document.getElementById('timerSecs').textContent = String(
+          seconds,
+        ).padStart(2, '0')
+      }
+
+      renderCountdown()
+      setInterval(renderCountdown, 1000)
+
+      /* --------------------------------------------------------
+       3. LÓGICA DEL CARRUSEL DE IMÁGENES (CON ARRANQUE FAST)
+       -------------------------------------------------------- */
+      const slides = document.querySelectorAll('.carousel-slide')
+      const dots = document.querySelectorAll('.dot')
+      const prevBtn = document.getElementById('prevSlide')
+      const nextBtn = document.getElementById('nextSlide')
+      const carouselWrapper = document.getElementById('carouselWrapper')
+      let currentIndex = 0
+      let carouselTimer = null
+      let spinTimeout = null
+
+      function showSlide(index) {
+        if (index >= slides.length) index = 0
+        if (index < 0) index = slides.length - 1
+
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === index)
+        })
+
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index)
+        })
+
+        currentIndex = index
+      }
+
+      function nextSlide() {
+        showSlide(currentIndex + 1)
+      }
+
+      function prevSlide() {
+        showSlide(currentIndex - 1)
+      }
+
+      function startAutoPlay() {
+        stopAutoPlay()
+        carouselTimer = setInterval(nextSlide, 3500)
+      }
+
+      function stopAutoPlay() {
+        if (carouselTimer) {
+          clearInterval(carouselTimer)
+          carouselTimer = null
+        }
+        if (spinTimeout) {
+          clearTimeout(spinTimeout)
+          spinTimeout = null
+        }
+      }
+
+      function cancelSpin() {
+        if (carouselWrapper) {
+          carouselWrapper.classList.remove('is-spinning')
+        }
+        if (spinTimeout) {
+          clearTimeout(spinTimeout)
+          spinTimeout = null
+        }
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          cancelSpin()
+          nextSlide()
+          startAutoPlay()
+        })
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          cancelSpin()
+          prevSlide()
+          startAutoPlay()
+        })
+      }
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', (e) => {
+          cancelSpin()
+          const targetIdx = parseInt(e.target.dataset.index, 10)
+          showSlide(targetIdx)
+          startAutoPlay()
+        })
+      })
+
+      if (carouselWrapper) {
+        carouselWrapper.addEventListener('mouseenter', stopAutoPlay)
+        carouselWrapper.addEventListener('mouseleave', () => {
+          if (!carouselWrapper.classList.contains('is-spinning')) {
+            startAutoPlay()
+          }
+        })
+      }
+
+      /* Rotación rapidísima inicial que desacelera en 3 segundos */
+      const INTRO_SPIN_DURATION = 3000
+      const INITIAL_DELAY_MS = 250
+      const MIN_INTERVAL_MS = 65
+      const MAX_SPIN_INTERVAL_MS = 1100
+
+      function runSpinIntro() {
+        const startTime = performance.now()
+
+        function spinStep() {
+          const elapsed = performance.now() - startTime
+
+          if (elapsed >= INTRO_SPIN_DURATION) {
+            if (carouselWrapper) {
+              carouselWrapper.classList.remove('is-spinning')
+            }
+            startAutoPlay()
+            return
+          }
+
+          nextSlide()
+
+          const progress = Math.min(elapsed / INTRO_SPIN_DURATION, 1)
+          const currentDelay =
+            MIN_INTERVAL_MS +
+            (MAX_SPIN_INTERVAL_MS - MIN_INTERVAL_MS) * Math.pow(progress, 2.2)
+
+          spinTimeout = setTimeout(spinStep, currentDelay)
+        }
+
+        spinStep()
+      }
+
+      setTimeout(() => {
+        if (carouselWrapper) {
+          carouselWrapper.classList.add('is-ready', 'is-spinning')
+          runSpinIntro()
+        }
+      }, INITIAL_DELAY_MS)
+    </script>
+  </body>
+</html>
